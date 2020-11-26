@@ -1,0 +1,84 @@
+@page "/todo"
+
+<section class="todoapp">
+    <header class="header">
+        <h1>Todo (@todos.Count(todo => !todo.IsDone))</h1>
+        <input class="new-todo" id="new-todo" @bind="newTodo" placeholder="What needs to be done?" autofocus>
+    </header>
+    <section class="main">
+        <h2></h2>
+        <input class="toggle-all" onclick="view.toggleAll();" type="checkbox">
+        <label for="toggle-all">Mark all as complete</label>
+
+        <ul class="todo-list">
+            @foreach (var todo in todos)
+            {
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-1"><input type="checkbox"  @bind="todo.IsDone" /></div>
+                        <div class="col-4"><span class="">@todo.Title</span></div>
+                    </div>
+                    
+                    
+                    @* <input type="text" @bind="todo.Title" /> *@
+                </li>
+            }
+        </ul>
+
+        <footer class="footer">
+            <span class="todo-count"></span>
+            <ul class="filters">
+                <li>
+                    <a href="#/" class="all">All</a>
+                </li>
+                <li>
+                    <a href="#/active" class="active">Active</a>
+                </li>
+                <li>
+                    <a href="#/completed" class="completed">Completed</a>
+                </li>
+            </ul>
+            <button class="clear-completed">Clear completed</button>
+        </footer>
+        
+    </section>
+</section>
+<button type="submit" class="btn btn-primary" @onclick="AddTodo">Add todo</button>
+
+@* <div class="form-group">
+    <input type="text" class="form-control col-4" @bind="newTodo" placeholder="Something todo" />
+</div>
+<button type="submit" class="btn btn-primary" @onclick="AddTodo">Add todo</button>
+
+<hr/>
+
+<ul class="list-group">
+    @foreach (var todo in todos)
+    {
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-1"><input type="checkbox"  @bind="todo.IsDone" /></div>
+                <div class="col-4"><span class="">@todo.Title</span></div>
+            </div>
+            
+            
+            <input type="text" @bind="todo.Title" />
+        </li>
+    }
+</ul> *@
+
+
+@code 
+{
+    private IList<TodoItem> todos = new List<TodoItem>();
+    private string newTodo;
+
+    private void AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            todos.Add(new TodoItem { Title = newTodo });
+            newTodo = String.Empty;
+        }
+    }
+}
